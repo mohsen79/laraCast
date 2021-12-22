@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API\V01\Auth;
+namespace App\Http\Controllers\API\v1\Auth;
 
 use App\Helpers\UserRefactory;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -28,12 +29,12 @@ class AuthController extends Controller
         resolve(UserRefactory::class)->create($data);
         return response()->json([
             'message' => 'user created successfuly'
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function user()
     {
-        return response()->json([auth()->user(), 200]);
+        return response()->json([auth()->user(), Response::HTTP_OK]);
     }
 
     /**
@@ -51,7 +52,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         if (auth()->attempt($request->only(['email', 'password']))) {
-            return response()->json(auth()->user(), 200);
+            return response()->json(auth()->user(), Response::HTTP_OK);
         }
         throw ValidationException::withMessages([
             'email' => 'incorrect email'
@@ -61,6 +62,6 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return response()->json(['message' => 'user has logged out']);
+        return response()->json(['message' => 'user has logged out'], Response::HTTP_OK);
     }
 }

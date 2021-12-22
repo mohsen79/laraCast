@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\API\V01\Auth;
+namespace Tests\Unit\API\v1\Auth;
 
 // use PHPUnit\Framework\TestCase;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class AuthControllerTest extends TestCase
+class AuthTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -19,7 +20,7 @@ class AuthControllerTest extends TestCase
     public function testRegister()
     {
         $response = $this->postJson('api/v1/auth/register');
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testRgisterNewUser()
@@ -29,13 +30,13 @@ class AuthControllerTest extends TestCase
             'email' => 'mohsen@gmail.com',
             'password' => '01234567'
         ]);
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 
     public function testLoginValidation()
     {
         $response = $this->postJson(route('auth.login'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testLogIn()
@@ -47,7 +48,7 @@ class AuthControllerTest extends TestCase
                 'email' => $user->email,
                 'password' => 'password'
             ]);
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function testUserIfLoggedIn()
@@ -56,7 +57,7 @@ class AuthControllerTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->get(route('auth.user'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function testLogOut()
@@ -65,6 +66,6 @@ class AuthControllerTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->postJson(route('auth.logout'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 }

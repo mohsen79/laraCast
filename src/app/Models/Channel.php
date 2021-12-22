@@ -9,7 +9,7 @@ class Channel extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug'];
 
     public function threads()
     {
