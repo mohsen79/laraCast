@@ -21,4 +21,16 @@ class ThreadController extends Controller
         $thread = resolve(ThreadRefactory::class)->getThreadBySlug($slug);
         return response()->json($thread, Response::HTTP_OK);
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required',
+            'slug' => '',
+            'content' => 'required',
+            'channel_id' => 'required|integer'
+        ]);
+        resolve(ThreadRefactory::class)->store($data);
+        return response()->json(['message' => 'thread created successfuly'], Response::HTTP_CREATED);
+    }
 }

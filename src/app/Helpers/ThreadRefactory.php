@@ -15,4 +15,9 @@ class ThreadRefactory
     {
         return Thread::whereSlug($slug)->whereFlag(1)->first();
     }
+
+    public function store($data)
+    {
+        auth()->user()->threads()->create($data);
+    }
 }

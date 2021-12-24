@@ -19,7 +19,7 @@ class ThreadFactory extends Factory
             'title' => $this->faker->title(),
             'slug' => $this->faker->slug(),
             'content' => $this->faker->realText(),
-            'user_id' => User::factory()->create()->id,
+            'user_id' => auth()->user()->id,
             'channel_id' => Channel::factory()->create()->id
         ];
     }
