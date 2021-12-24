@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests\Unit\API\v1\Auth;
-
-// use PHPUnit\Framework\TestCase;
+namespace Tests\Feature\API\v1\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

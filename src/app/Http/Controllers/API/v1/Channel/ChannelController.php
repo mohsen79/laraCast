@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1\Channel;
 
-use App\Helpers\ChannelFactory;
+use App\Helpers\ChannelReFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class ChannelController extends Controller
             'name' => 'required'
         ]);
         $data["slug"] = Str::slug($data["name"]);
-        resolve(ChannelFactory::class)->create($data);
+        resolve(ChannelReFactory::class)->create($data);
         return response()->json(['message' => 'channel created successfuly'], Response::HTTP_CREATED);
     }
 
