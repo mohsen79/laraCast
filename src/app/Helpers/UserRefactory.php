@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class UserRefactory
 {
-    public function create($data)
+    public function create($data): User
     {
-        User::create($data);
+        return User::create($data);
     }
 }

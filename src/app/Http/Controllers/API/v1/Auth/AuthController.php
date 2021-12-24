@@ -26,7 +26,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         $data["password"] = Hash::make($data["password"]);
-        resolve(UserRefactory::class)->create($data);
+        $user = resolve(UserRefactory::class)->create($data);
+        $default_super_admin_email = config('permission.default_super_admin_email');
+        $user->email = $default_super_admin_email ? $user->assignRole('Super Admin') : $user->assignRole('User');
         return response()->json([
             'message' => 'user created successfuly'
         ], Response::HTTP_CREATED);
