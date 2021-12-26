@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API\v1\Tread;
+namespace App\Http\Controllers\API\v1\Thread;
 
 use App\Helpers\ThreadRefactory;
 use App\Http\Controllers\Controller;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ThreadController extends Controller
 {
@@ -32,5 +33,23 @@ class ThreadController extends Controller
         ]);
         resolve(ThreadRefactory::class)->store($data);
         return response()->json(['message' => 'thread created successfuly'], Response::HTTP_CREATED);
+    }
+
+    public function update(Request $request, Thread $thread)
+    {
+        if (Gate::forUser(auth()->user())->allows('manage-thread', $thread)) {
+            resolve(ThreadRefactory::class)->update($request, $thread);
+            return response()->json(['message' => 'thread created successfuly'], Response::HTTP_OK);
+        }
+        return response()->json(['message' => 'access denied'], Response::HTTP_FORBIDDEN);
+    }
+
+    public function destroy(Thread $thread)
+    {
+        if (Gate::forUser(auth()->user())->allows('manage-thread', $thread)) {
+            resolve(ThreadRefactory::class)->destroy($thread);
+            return response()->json(['message' => 'thread deleted successfuly'], Response::HTTP_OK);
+        }
+        return response()->json(['message' => 'access denied'], Response::HTTP_FORBIDDEN);
     }
 }

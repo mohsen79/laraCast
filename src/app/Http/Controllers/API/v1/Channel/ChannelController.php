@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1\Channel;
 
-use App\Helpers\ChannelReFactory;
+use App\Helpers\ChannelRefactory;
 use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use Illuminate\Http\Request;

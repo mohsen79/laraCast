@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Channel;
 
-class ChannelReFactory
+class ChannelRefactory
 {
     public function create($data)
     {

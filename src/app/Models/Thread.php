@@ -9,7 +9,7 @@ class Thread extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'content', 'channel_id', 'user_id'];
+    protected $fillable = ['title', 'slug', 'content', 'user_id', 'channel_id'];
     // protected $guarded = [];
 
     public function channel()
@@ -20,7 +20,7 @@ class Thread extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function answer()
+    public function answers()
     {
         return $this->hasMany(Answer::class);
     }
