@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 class AnswerTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -26,9 +27,24 @@ class AnswerTest extends TestCase
 
     public function testCreateAnswerValidation()
     {
+        Sanctum::actingAs(User::factory()->create());
         $response = $this->postJson(route('answers.store'), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonValidationErrors(['content', 'thread_id']);
+    }
+
+    public function testScore()
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+        $thread = Thread::factory()->create();
+        $response = $this->postJson(route('answers.store'), [
+            'content' => 'score',
+            'thread_id' => $thread->id
+        ]);
+        $response->assertSuccessful();
+        $user->refresh();
+        $this->assertEquals(10, $user->score);
     }
 
     public function testCreateAnswer()
@@ -46,6 +62,7 @@ class AnswerTest extends TestCase
 
     public function testUpdateAnswerValidation()
     {
+        Sanctum::actingAs(User::factory()->create());
         $answer = Answer::factory()->create();
         $response = $this->putJson(route('answers.update', $answer->id), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

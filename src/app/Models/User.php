@@ -23,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'score',
-        'flag'
+        'is_block'
     ];
 
     /**
@@ -52,5 +52,9 @@ class User extends Authenticatable
     public function answers()
     {
         return $this->hasMany(Answer::class);
+    }
+    public function subscribes()
+    {
+        return $this->hasMany(Subscribe::class);
     }
 }

@@ -11,4 +11,9 @@ class UserRefactory
     {
         return User::create($data);
     }
+
+    public function leaderBoard()
+    {
+        return User::query()->orderByDesc('score')->paginate(20);
+    }
 }
